@@ -11614,6 +11614,7 @@ img.loader {
   transform: translateY(-50%) translateX(-50%);
   justify-content: space-between;
   z-index: 2;
+  width: 100%;
   max-width: calc((var(--vw, 1vw) * 100) - .25rem); }
   @media (min-width: 576px) {
     .row.row-products .slider-controls {

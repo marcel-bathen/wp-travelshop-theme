@@ -109,6 +109,7 @@
   justify-content: space-between;
 
   z-index: 2;
+  width: 100%;
   max-width: calc((var(--vw, 1vw) * 100) - .25rem);
 
   // set width by max container width
