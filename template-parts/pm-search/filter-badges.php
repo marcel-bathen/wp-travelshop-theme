@@ -38,8 +38,9 @@
                         }
                     }
                 }
-                ?>
+                if ( in_array($item->id_item, $selected) ) {
 
+                ?>
                 <input class="form-check-input" type="checkbox"
                        id="<?php echo $uuid; ?>"
                        data-id-parent=""
@@ -52,12 +53,14 @@
                 <?php
 
                 echo '<span class="form-check-label-inner">' . $item->name . '</span>';
+                }
 
                 ?>
                 <?php if ($has_childs === true) { ?>
 
 
                     <?php foreach ($childs[$item->id_item] as $child_item) {
+                        if ( in_array($child_item->id_item, $selected) ) {
                         $uuid = 'ti-'.uniqid();
                         ?>
 
@@ -71,7 +74,8 @@
 
                         <?php echo $child_item->name; ?>
 
-                    <?php } ?>
+                    <?php }
+                    }?>
                 <?php } ?>
                 <?php
                 $iterateItems++;
