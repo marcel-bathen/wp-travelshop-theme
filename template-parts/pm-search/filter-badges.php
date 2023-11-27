@@ -3,6 +3,24 @@
 
     $activeFilters = [];
 
+    // transport types
+    if (empty($args['transport_types']) && count($args['transport_types']) > 1) {
+        return;
+    }
+
+    $selected = [];
+    if (empty($_GET['pm-tr']) === false) {
+        $selected = BuildSearch::extractTransportTypes($_GET['pm-tr']);
+    }
+
+    foreach ($args['transport_types'] as $item) {
+        $activeFilters[]  = [
+            'id' => $item->name,
+            'name' => $item->name
+        ];
+    }
+
+    // categories
     foreach(TS_FILTERS as $filter) {
         $fieldname = $filter['fieldname'];
         $name = $filter['name'];
