@@ -4,7 +4,7 @@ echo "hi";
 $activeFilters = [];
 
 // transport types
-if (empty($args['transport_types']) && count($args['transport_types']) > 1) {
+if (!empty($args['transport_types']) && count($args['transport_types']) > 1) {
     $selected = [];
     if (empty($_GET['pm-tr']) === false) {
         $selected = BuildSearch::extractTransportTypes($_GET['pm-tr']);
@@ -22,7 +22,7 @@ if (empty($args['transport_types']) && count($args['transport_types']) > 1) {
 
 
 // board type
-if (empty($args['board_types'])) {
+if (!empty($args['board_types'])) {
     $selected = [];
 
     if (empty($_GET['pm-bt']) === false) {
