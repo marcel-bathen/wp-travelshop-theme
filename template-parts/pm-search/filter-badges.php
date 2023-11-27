@@ -23,8 +23,9 @@
         $dataPreviewClass = '';
         $iterateItems = 1;
 
+        if ( isset($args['categories'][$fieldname]) ) {
 
-        foreach ($args['categories'][$fieldname][0] as $item) {
+            foreach ($args['categories'][$fieldname][0] as $item) {
                 $uuid = 'ti-'.uniqid();
                 $has_childs = !empty($childs[$item->id_item]) && count($childs[$item->id_item]) > 1;
                 // open the second level if neccessary
@@ -39,42 +40,43 @@
                 }
                 ?>
 
-                    <input class="form-check-input" type="checkbox"
-                           id="<?php echo $uuid; ?>"
-                           data-id-parent=""
-                           data-id="<?php echo $item->id_item; ?>"
-                           data-name="<?php echo $fieldname;?>"
+                <input class="form-check-input" type="checkbox"
+                       id="<?php echo $uuid; ?>"
+                       data-id-parent=""
+                       data-id="<?php echo $item->id_item; ?>"
+                       data-name="<?php echo $fieldname;?>"
                     <?php echo in_array($item->id_item, $selected) ? 'checked' : '';?>
-                            <?php echo !empty($is_open) ? 'disabled' : '';?>
-                    >
+                    <?php echo !empty($is_open) ? 'disabled' : '';?>
+                >
 
-                        <?php
+                <?php
 
-                            echo '<span class="form-check-label-inner">' . $item->name . '</span>';
+                echo '<span class="form-check-label-inner">' . $item->name . '</span>';
 
+                ?>
+                <?php if ($has_childs === true) { ?>
+
+
+                    <?php foreach ($childs[$item->id_item] as $child_item) {
+                        $uuid = 'ti-'.uniqid();
                         ?>
-                    <?php if ($has_childs === true) { ?>
 
+                        <input class="form-check-input" type="checkbox"
+                               id="<?php echo $uuid; ?>"
+                               data-id-parent="<?php echo $item->id_item; ?>"
+                               data-id="<?php echo $child_item->id_item; ?>"
+                               data-name="<?php echo $fieldname;?>"
+                            <?php echo in_array($child_item->id_item, $selected) ? 'checked' : '';?>
+                        >
 
-                            <?php foreach ($childs[$item->id_item] as $child_item) {
-                                $uuid = 'ti-'.uniqid();
-                                ?>
+                        <?php echo $child_item->name; ?>
 
-                                    <input class="form-check-input" type="checkbox"
-                                           id="<?php echo $uuid; ?>"
-                                           data-id-parent="<?php echo $item->id_item; ?>"
-                                           data-id="<?php echo $child_item->id_item; ?>"
-                                           data-name="<?php echo $fieldname;?>"
-                                        <?php echo in_array($child_item->id_item, $selected) ? 'checked' : '';?>
-                                           >
-
-                                        <?php echo $child_item->name; ?>
-
-                            <?php } ?>
                     <?php } ?>
+                <?php } ?>
                 <?php
                 $iterateItems++;
             }
+        }
     }
 
 
