@@ -1,5 +1,7 @@
 <?php
+
 use Pressmind\Travelshop\Template;
+
 /**
  * Don't use WordPress functions in this template (for better performance it's called by ajax without the wp bootstrap)
  *
@@ -70,11 +72,8 @@ if(!empty($_GET['view']) && preg_match('/^[0-9A-Za-z\_]+$/', $_GET['view']) !== 
     </div>
 </section>
 <?php
-    echo "hi";
+require "filter-badges.php";
 ?>
-<section class="content-block content-block-list-active-filters">
-
-</section>
 <?php } ?>
 <section class="content-block content-block-travel-cols">
     <div class="spinner">
