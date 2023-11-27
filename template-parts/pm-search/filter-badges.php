@@ -101,7 +101,7 @@ foreach (TS_FILTERS as $filter) {
 <?php if ( !empty($activeFilters) ) { ?>
     <section class="content-block content-block-list-active-filters">
 
-        <div class="active-filters d-flex flex-row row-gap-1 column-gap-2">
+        <div class="active-filters d-flex flex-row flex-wrap row-gap-1 column-gap-2">
 
             <?php
             foreach ( $activeFilters as $activeFilter ) {
