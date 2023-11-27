@@ -41,6 +41,7 @@
                 if ( in_array($item->id_item, $selected) ) {
                     $activeFilters[] = [
                         'uuid' => $uuid,
+                        'id' => $item->id_item,
                         'name' => $item->name
                     ]
 
@@ -58,6 +59,7 @@
                         $uuid = 'ti-'.uniqid();
                             $activeFilters[] = [
                                 'uuid' => $uuid,
+                                'id' => $child_item->id_item,
                                 'name' => $child_item->name
                             ]
                         ?>
