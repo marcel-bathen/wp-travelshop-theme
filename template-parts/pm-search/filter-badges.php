@@ -39,20 +39,14 @@
                     }
                 }
                 if ( in_array($item->id_item, $selected) ) {
+                    $activeFilters[] = [
+                        'uuid' => $uuid,
+                        'name' => $item->name
+                    ]
 
                 ?>
-                <input class="form-check-input" type="checkbox"
-                       id="<?php echo $uuid; ?>"
-                       data-id-parent=""
-                       data-id="<?php echo $item->id_item; ?>"
-                       data-name="<?php echo $fieldname;?>"
-                    <?php echo in_array($item->id_item, $selected) ? 'checked' : '';?>
-                    <?php echo !empty($is_open) ? 'disabled' : '';?>
-                >
 
                 <?php
-
-                echo '<span class="form-check-label-inner">' . $item->name . '</span>';
                 }
 
                 ?>
@@ -62,17 +56,13 @@
                     <?php foreach ($childs[$item->id_item] as $child_item) {
                         if ( in_array($child_item->id_item, $selected) ) {
                         $uuid = 'ti-'.uniqid();
+                            $activeFilters[] = [
+                                'uuid' => $uuid,
+                                'name' => $child_item->name
+                            ]
                         ?>
 
-                        <input class="form-check-input" type="checkbox"
-                               id="<?php echo $uuid; ?>"
-                               data-id-parent="<?php echo $item->id_item; ?>"
-                               data-id="<?php echo $child_item->id_item; ?>"
-                               data-name="<?php echo $fieldname;?>"
-                            <?php echo in_array($child_item->id_item, $selected) ? 'checked' : '';?>
-                        >
 
-                        <?php echo $child_item->name; ?>
 
                     <?php }
                     }?>
@@ -87,7 +77,7 @@
 ?>
 
 <pre>
-    <?php print_r($args); ?>
+    <?php print_r($activeFilters); ?>
 </pre>
 <section class="content-block content-block-list-active-filters">
 
