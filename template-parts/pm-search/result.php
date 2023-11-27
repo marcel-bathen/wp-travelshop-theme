@@ -62,11 +62,18 @@ if(!empty($_GET['view']) && preg_match('/^[0-9A-Za-z\_]+$/', $_GET['view']) !== 
         <label class="pm-switch">
             <input class="pm-switch-checkbox" type="checkbox" value="Teaser3" <?php echo $view == 'Teaser3' ? 'checked' : '';?>>
             <span class="pm-switch-slider">
-               <svg class="layout-list"><use xmlns:xlink="http://www.w3.org/1999/xlink" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/phosphor-sprite.svg#rows"></use></svg>
-                <svg class="layout-grid"><use xmlns:xlink="http://www.w3.org/1999/xlink" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/phosphor-sprite.svg#squares-four"></use></svg>
+               <svg class="layout-list"><use href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/phosphor-sprite.svg#rows"></use></svg>
+                <svg class="layout-grid"><use
+                            href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/phosphor-sprite.svg#squares-four"></use></svg>
             </span>
         </label>
     </div>
+</section>
+<?php
+    echo "hi";
+?>
+<section class="content-block content-block-list-active-filters">
+
 </section>
 <?php } ?>
 <section class="content-block content-block-travel-cols">
