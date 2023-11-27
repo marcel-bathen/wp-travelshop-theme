@@ -98,6 +98,26 @@ foreach (TS_FILTERS as $filter) {
 <pre>
     <?php print_r($activeFilters); ?>
 </pre>
-<section class="content-block content-block-list-active-filters">
+<?php if ( !empty($activeFilters) ) { ?>
+    <section class="content-block content-block-list-active-filters">
 
-</section>
+        <div class="active-filters">
+
+            <?php
+            foreach ( $activeFilters as $activeFilter ) {
+                ?>
+                <div class="active-filter">
+                    <?php echo $activeFilter['name']; ?>
+                    <button class="active-filter-remove" data-target="<?php echo $activeFilter['id']; ?>">
+                        <svg>
+                            <use href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/phosphor-sprite.svg#x"></use></svg>
+                    </button>
+                </div>
+                <?php
+            }
+            ?>
+
+        </div>
+
+    </section>
+<?php } ?>
