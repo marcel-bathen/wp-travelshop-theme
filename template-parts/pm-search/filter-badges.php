@@ -14,10 +14,12 @@
     }
 
     foreach ($args['transport_types'] as $item) {
-        $activeFilters[]  = [
-            'id' => $item->name,
-            'name' => $item->name
-        ];
+        if ( in_array($item->name, $selected) ) {
+            $activeFilters[]  = [
+                'id' => $item->name,
+                'name' => $item->name
+            ];
+        }
     }
 
     // categories
