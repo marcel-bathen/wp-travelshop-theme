@@ -525,6 +525,10 @@ jQuery(function ($) {
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
+    
+    // ------------------------------------------------
+    // -- Active filters
+    // -----
 
     // ------------------------------------------------
     // -- mobile bar show/hide

@@ -2,6 +2,23 @@
 
 $activeFilters = [];
 
+// duration
+if ( isset($_GET['pm-du']) ) {
+    $duration = $_GET['pm-du'];
+    $durationArr = explode('-', $duration);
+    $durationString = $durationArr[0] . '-' . $durationArr[1] . ' Tage';
+
+    if ( intval($durationArr[1]) === 99 ) {
+        $durationString = $durationArr[0] . ' Tage und mehr';
+    }
+
+    $activeFilters[] = [
+        'id' => 'pm-du',
+        'type' => 'select',
+        'name' => $durationString
+    ];
+}
+
 // transport types
 if (!empty($args['transport_types']) && count($args['transport_types']) > 1) {
     $selected = [];
@@ -13,7 +30,7 @@ if (!empty($args['transport_types']) && count($args['transport_types']) > 1) {
         if (in_array($item->name, $selected)) {
             $activeFilters[] = [
                 'id' => $item->name,
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => $item->name
             ];
         }
@@ -33,7 +50,7 @@ if (!empty($args['board_types'])) {
         if (in_array($item->name, $selected)) {
             $activeFilters[] = [
                 'id' => $item->name,
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => $item->name
             ];
         }
