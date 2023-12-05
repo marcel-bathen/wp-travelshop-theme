@@ -531,7 +531,7 @@ jQuery(function ($) {
     // ------------------------------------------------
     let activeFilterWrapper = '.content-block-list-active-filters';
     let activeFilterRemove = 'button.active-filter-remove';
-    let listFilterWrapper = '.list-filter';
+    let listFilterBlock = '.list-filter';
     
     function activeFilters() {
         if ( $('body').find(activeFilterWrapper) ) {
@@ -542,12 +542,12 @@ jQuery(function ($) {
 
                 var thisId = $(this).data('target');
                 var thisType = $(this).data('type');
-                var getFilter = $('body').find(listFilterWrapper);
+                var getFilter = $('body').find(listFilterBlock);
 
                 if ( thisType === 'category' ) {
                     
                     // get checkbox by ID
-                    var getCheckbox = $('body').find(listFilterWrapper + ' input[data-id="'+thisId+'"]');
+                    var getCheckbox = $('body').find(listFilterBlock + ' input[data-id="'+thisId+'"]');
 
                     getCheckbox.trigger('click');
                     getFilter.trigger('submit');
