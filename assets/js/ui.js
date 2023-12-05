@@ -563,10 +563,23 @@ jQuery(function ($) {
                     getCheckbox.trigger('click');
                 }
 
+                /**
+                 * Daterange
+                 */
                 if ( thisType === 'daterange' ) {
                     var getDateRangeInputClear = $('body').find(listFilterBlock + ' .datepicker-clear');
 
                     getDateRangeInputClear.trigger('click');
+                }
+
+                /**
+                 * Select
+                 */
+                if ( thisType === 'select' ) {
+                    var getSelect = $('body').find(listFilterBlock + ' select[name="'+thisId+'"]');
+
+                    getSelect.prop('selectedIndex',0);
+                    getSelect.trigger('change');
                 }
 
                 // submit for safety reasons
