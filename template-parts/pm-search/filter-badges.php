@@ -148,7 +148,7 @@ foreach (TS_FILTERS as $filter) {
                 ?>
                 <div class="active-filter">
                     <?php echo $activeFilter['name']; ?>
-                    <button class="active-filter-remove" data-target="<?php echo $activeFilter['id']; ?>">
+                    <button class="active-filter-remove" data-target="<?php echo $activeFilter['id']; ?>" data-type="<?php echo $activeFilter['type']; ?>">
                         <svg>
                             <use href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/phosphor-sprite.svg#x"></use></svg>
                     </button>

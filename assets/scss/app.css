@@ -18481,8 +18481,10 @@ footer.footer-main {
   flex-wrap: nowrap;
   gap: .375rem;
   align-items: center;
-  padding: .25rem .5rem .25rem .75rem;
-  border-radius: 0.25rem; }
+  padding: 0 .5rem 0 .75rem;
+  border-radius: 0.25rem;
+  height: 2rem;
+  line-height: 1; }
   .content-block-list-active-filters .active-filter button.active-filter-remove {
     border: 0;
     outline: none;
