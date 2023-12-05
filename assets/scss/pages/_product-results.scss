@@ -100,3 +100,38 @@
     }
   }
 }
+
+.content-block-list-active-filters {
+  .active-filter {
+    background-color: $primary;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    gap: .375rem;
+
+    padding: .25rem .25rem .25rem .5rem;
+
+    button.active-filter-remove {
+      @include button-reset();
+
+      width: $font-size-lg;
+      height: $font-size-lg;
+      line-height: 1;
+
+      color: #fff;
+
+      transition: color $animation-speed-default;
+
+      svg {
+        width: $font-size-lg;
+        height: $font-size-lg;
+      }
+
+      &:hover, &:focus, &:active {
+        color: rgba(#fff, .75);
+      }
+    }
+  }
+}

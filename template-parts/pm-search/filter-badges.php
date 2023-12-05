@@ -121,9 +121,6 @@ foreach (TS_FILTERS as $filter) {
 
 ?>
 
-<pre>
-    <?php print_r($activeFilters); ?>
-</pre>
 <?php if ( !empty($activeFilters) ) { ?>
     <section class="content-block content-block-list-active-filters">
 
