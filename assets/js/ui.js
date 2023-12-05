@@ -538,6 +538,7 @@ jQuery(function ($) {
 
             var getFilterBadges = $('body').find(activeFilterRemove);
 
+            getFilterBadges.unbind();
             getFilterBadges.on('click touch', function(e) {
 
                 var thisId = $(this).data('target');
@@ -580,6 +581,13 @@ jQuery(function ($) {
 
                     getSelect.prop('selectedIndex',0);
                     getSelect.trigger('change');
+                }
+
+                /**
+                 * Price
+                 */
+                if ( thisType === 'pricerange' ) {
+                    // @todo: @Michael hier einmal pricerange reset einbauen - kann ich leider nicht testen/machen da ich nicht genug Objekte im System habe.
                 }
 
                 // submit for safety reasons
