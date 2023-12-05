@@ -734,164 +734,164 @@ jQuery(function ($) {
 
         this.dateRangePickerInit = function (){
 
-            if ($('[data-type="daterange"]').length > 0) {
-
-                let easterDate = _this.theEasterDate(dayjs().year());
-                if(easterDate.isBefore(dayjs())){
-                    easterDate = _this.theEasterDate(dayjs().add(1, 'year').year());
-                }
-
-                let pfingstenDate = _this.theEasterDate(dayjs().year()).add(49, 'days');
-                if(pfingstenDate.isBefore(dayjs())){
-                    pfingstenDate = _this.theEasterDate(dayjs().add(1, 'year').year()).add(49, 'days');
-                }
-
-                let rosenmontagDate = _this.theEasterDate(dayjs().year()).subtract(48, 'days');
-                if(rosenmontagDate.isBefore(dayjs())){
-                    rosenmontagDate = _this.theEasterDate(dayjs().add(1, 'year').year()).subtract(48, 'days');
-                }
-
-                $('[data-type="daterange"]').each((index, item) => {
-                    _this.picker[index] = $(item).unbind().daterangepicker({
-                        "parentEl": $('#booking-filter').length ? '#booking-filter': 'body',
-                        "opens": $('#booking-filter').length ? 'left' : 'right',
-                        "ranges": {
-                            'Heute': [dayjs(), dayjs()],
-                            'Abreise in 30 Tagen': [dayjs().add(30, 'days'), dayjs().add(1, 'month')],
-                            'Abreise in 60 Tagen': [dayjs().add(60, 'days'), dayjs().add(1, 'month')],
-                            'in diesem Monat': [dayjs().startOf('month'), dayjs().endOf('month')],
-                            // 'über Rosenmontag': [rosenmontagDate.subtract(7, 'days'), rosenmontagDate],
-                            'über Ostern': [easterDate.subtract(7, 'days'), easterDate],
-                            'über Pfingsten': [pfingstenDate.subtract(7, 'days'), pfingstenDate],
-                            'über Weihnachten': [dayjs().date(15).month(11), dayjs().date(24).month(11)],
-                            'über Silvester': [dayjs().date(25).month(11), dayjs().date(31).month(11)],
-                            'im nächsten Monat': [dayjs().add(1, 'month').startOf('month'), dayjs().add(1, 'month').endOf('month')],
-                        },
-                        "changeMonth": false,
-                        "changeYear": false,
-                        "showWeekNumbers": false,
-                        "autoUpdateInput": false,
-                        "alwaysShowCalendars": true,
-                        "showDropdowns": true,
-                        "minDate": $('[data-type="daterange"]').data('mindate'),
-                        "maxDate": $('[data-type="daterange"]').data('maxdate'),
-                        "maxYear": parseInt(dayjs($('[data-type="daterange"]').data('maxdate'), 'DD.MM.YYYY').format("YYYY")),
-                        "minYear": parseInt(dayjs($('[data-type="daterange"]').data('mindate'), 'DD.MM.YYYY').format("YYYY")),
-                        "showCustomRangeLabel": false,
-                        "linkedCalendars": true,
-                        isCustomDate: function(date) {
-                            if($('[data-type="daterange"]').data('departures').indexOf(date.format('YYYY-MM-DD')) >= 0){
-                                return 'has_departures';
-                            }
-                        },
-                        // "autoApply": true,
-                        "locale": {
-                            "format": "DD.MM.YYYY",
-                            "separator": " - ",
-                            "applyLabel": "Auswahl übernehmen",
-                            "fromLabel": "Von",
-                            "toLabel": "Bis",
-                            "customRangeLabel": "Custom",
-                            "weekLabel": "W",
-                            "daysOfWeek": [
-                                "So",
-                                "Mo",
-                                "Di",
-                                "Mi",
-                                "Do",
-                                "Fr",
-                                "Sa"
-                            ],
-                            "monthNames": [
-                                "Januar",
-                                "Februar",
-                                "März",
-                                "April",
-                                "Mai",
-                                "Juni",
-                                "Juli",
-                                "August",
-                                "September",
-                                "Oktober",
-                                "November",
-                                "Dezember"
-                            ],
-                            "firstDay": 1,
-                            "buttonClasses": "btn btn-outline-secondary btn-block",
-                            "applyButtonClasses": "btn btn-outline-secondary btn-block",
-                            "cancelClass": "datepicker-clear",
-                            "cancelLabel": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>'
-                        },
-                        /*
-                        "startDate": dayjs().startOf('hour'),
-                        "endDate": dayjs().startOf('hour').add(64, 'hour')
-                        */
-                    }, function (start, end, label) {
-                        $('.modal-body-outer').scrollTop(0);
-                    });
-
-                    $(item).off('apply.daterangepicker').on('apply.daterangepicker', function (ev, picker) {
-                        $('[data-type="daterange"]').val(picker.startDate.format('DD.MM.') + ' - ' + picker.endDate.format('DD.MM.YY'));
-                        $('[data-type="daterange"]').attr('data-value', picker.startDate.format('YYYYMMDD') + '-' + picker.endDate.format('YYYYMMDD'));
-                        _this.dpquery = '&pm-dr=' + String(picker.startDate.format('YYYYMMDD') + '-' + picker.endDate.format('YYYYMMDD'));
-                        if($(ev.target).data('ajax') == '1') {
-                            $('[data-type="daterange"]').each((ind, it) => {
-                                ind == 0 ? $(it).trigger('change') : null;
-                            });
-                        } else {
-                            _this.loadOffers(ev, 'filter', '&pm-dr=' + picker.startDate.format('YYYYMMDD') + '-' + picker.endDate.format('YYYYMMDD'));
-                            if ($(ev.target).val() != '') {
-                                $(ev.target).siblings('.datepicker-clear').show();
-                                $(ev.target).siblings('.datepicker-icon').hide();
-                            } else {
-                                $(ev.target).siblings('.datepicker-clear').hide();
-                                $(ev.target).siblings('.datepicker-icon').show();
-                            }
-                        }
-                        _this.selectedOfferID = null;
-                        _this.firstCancel = true;
-                    });
-
-                    _this.firstCancel = true;
-                    $(item).off('cancel.daterangepicker').on('cancel.daterangepicker', function (ev, picker) {
-                        _this.firstCancel ? $('[data-type="daterange"]').each((ind, it) => {
-                            _this.dpquery = '&pm-dr=';
-                            $('[data-type="daterange"]').val('');
-                            $('[data-type="daterange"]').attr('data-value', '');
-                            $('[data-type="daterange"]').trigger('change');
-                            picker.leftCalendar.month = dayjs($(ev.target).data('mindate'), 'DD.MM.YYYY');
-                            picker.rightCalendar.month = dayjs($(ev.target).data('maxdate'), 'DD.MM.YYYY');
-                            if(_this.firstCancel == false) { return false; }
-                            _this.firstCancel = false;
-                        }) : '';
-                    });
-                });
-
-                // -- show/hide clear button in datepicker
-                $('[data-type="daterange"]').on('change', function (e) {
-                    if ($(this).val() != '') {
-                        $(e.target).siblings('.datepicker-clear').show();
-                        $(e.target).siblings('.datepicker-icon').hide();
-                    } else {
-                        $(e.target).siblings('.datepicker-clear').hide();
-                        $(e.target).siblings('.datepicker-icon').show();
-                    }
-                });
-
-                document.addEventListener("DOMContentLoaded", function (event) {
-                    $('.travelshop-datepicker-input').one('click', function () {
-                        $('.daterangepicker select').prettyDropdown({
-                            height: 30
-                        });
-                    });
-                    $('.monthselect').one('change', function () {
-                        $('.daterangepicker select').prettyDropdown({
-                            height: 30
-                        });
-                    });
-                });
-
-            }
+            // if ($('[data-type="daterange"]').length > 0) {
+            //
+            //     let easterDate = _this.theEasterDate(dayjs().year());
+            //     if(easterDate.isBefore(dayjs())){
+            //         easterDate = _this.theEasterDate(dayjs().add(1, 'year').year());
+            //     }
+            //
+            //     let pfingstenDate = _this.theEasterDate(dayjs().year()).add(49, 'days');
+            //     if(pfingstenDate.isBefore(dayjs())){
+            //         pfingstenDate = _this.theEasterDate(dayjs().add(1, 'year').year()).add(49, 'days');
+            //     }
+            //
+            //     let rosenmontagDate = _this.theEasterDate(dayjs().year()).subtract(48, 'days');
+            //     if(rosenmontagDate.isBefore(dayjs())){
+            //         rosenmontagDate = _this.theEasterDate(dayjs().add(1, 'year').year()).subtract(48, 'days');
+            //     }
+            //
+            //     $('[data-type="daterange"]').each((index, item) => {
+            //         _this.picker[index] = $(item).unbind().daterangepicker({
+            //             "parentEl": $('#booking-filter').length ? '#booking-filter': 'body',
+            //             "opens": $('#booking-filter').length ? 'left' : 'right',
+            //             "ranges": {
+            //                 'Heute': [dayjs(), dayjs()],
+            //                 'Abreise in 30 Tagen': [dayjs().add(30, 'days'), dayjs().add(1, 'month')],
+            //                 'Abreise in 60 Tagen': [dayjs().add(60, 'days'), dayjs().add(1, 'month')],
+            //                 'in diesem Monat': [dayjs().startOf('month'), dayjs().endOf('month')],
+            //                 // 'über Rosenmontag': [rosenmontagDate.subtract(7, 'days'), rosenmontagDate],
+            //                 'über Ostern': [easterDate.subtract(7, 'days'), easterDate],
+            //                 'über Pfingsten': [pfingstenDate.subtract(7, 'days'), pfingstenDate],
+            //                 'über Weihnachten': [dayjs().date(15).month(11), dayjs().date(24).month(11)],
+            //                 'über Silvester': [dayjs().date(25).month(11), dayjs().date(31).month(11)],
+            //                 'im nächsten Monat': [dayjs().add(1, 'month').startOf('month'), dayjs().add(1, 'month').endOf('month')],
+            //             },
+            //             "changeMonth": false,
+            //             "changeYear": false,
+            //             "showWeekNumbers": false,
+            //             "autoUpdateInput": false,
+            //             "alwaysShowCalendars": true,
+            //             "showDropdowns": true,
+            //             "minDate": $('[data-type="daterange"]').data('mindate'),
+            //             "maxDate": $('[data-type="daterange"]').data('maxdate'),
+            //             "maxYear": parseInt(dayjs($('[data-type="daterange"]').data('maxdate'), 'DD.MM.YYYY').format("YYYY")),
+            //             "minYear": parseInt(dayjs($('[data-type="daterange"]').data('mindate'), 'DD.MM.YYYY').format("YYYY")),
+            //             "showCustomRangeLabel": false,
+            //             "linkedCalendars": true,
+            //             isCustomDate: function(date) {
+            //                 if($('[data-type="daterange"]').data('departures').indexOf(date.format('YYYY-MM-DD')) >= 0){
+            //                     return 'has_departures';
+            //                 }
+            //             },
+            //             // "autoApply": true,
+            //             "locale": {
+            //                 "format": "DD.MM.YYYY",
+            //                 "separator": " - ",
+            //                 "applyLabel": "Auswahl übernehmen",
+            //                 "fromLabel": "Von",
+            //                 "toLabel": "Bis",
+            //                 "customRangeLabel": "Custom",
+            //                 "weekLabel": "W",
+            //                 "daysOfWeek": [
+            //                     "So",
+            //                     "Mo",
+            //                     "Di",
+            //                     "Mi",
+            //                     "Do",
+            //                     "Fr",
+            //                     "Sa"
+            //                 ],
+            //                 "monthNames": [
+            //                     "Januar",
+            //                     "Februar",
+            //                     "März",
+            //                     "April",
+            //                     "Mai",
+            //                     "Juni",
+            //                     "Juli",
+            //                     "August",
+            //                     "September",
+            //                     "Oktober",
+            //                     "November",
+            //                     "Dezember"
+            //                 ],
+            //                 "firstDay": 1,
+            //                 "buttonClasses": "btn btn-outline-secondary btn-block",
+            //                 "applyButtonClasses": "btn btn-outline-secondary btn-block",
+            //                 "cancelClass": "datepicker-clear",
+            //                 "cancelLabel": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>'
+            //             },
+            //             /*
+            //             "startDate": dayjs().startOf('hour'),
+            //             "endDate": dayjs().startOf('hour').add(64, 'hour')
+            //             */
+            //         }, function (start, end, label) {
+            //             $('.modal-body-outer').scrollTop(0);
+            //         });
+            //
+            //         $(item).off('apply.daterangepicker').on('apply.daterangepicker', function (ev, picker) {
+            //             $('[data-type="daterange"]').val(picker.startDate.format('DD.MM.') + ' - ' + picker.endDate.format('DD.MM.YY'));
+            //             $('[data-type="daterange"]').attr('data-value', picker.startDate.format('YYYYMMDD') + '-' + picker.endDate.format('YYYYMMDD'));
+            //             _this.dpquery = '&pm-dr=' + String(picker.startDate.format('YYYYMMDD') + '-' + picker.endDate.format('YYYYMMDD'));
+            //             if($(ev.target).data('ajax') == '1') {
+            //                 $('[data-type="daterange"]').each((ind, it) => {
+            //                     ind == 0 ? $(it).trigger('change') : null;
+            //                 });
+            //             } else {
+            //                 _this.loadOffers(ev, 'filter', '&pm-dr=' + picker.startDate.format('YYYYMMDD') + '-' + picker.endDate.format('YYYYMMDD'));
+            //                 if ($(ev.target).val() != '') {
+            //                     $(ev.target).siblings('.datepicker-clear').show();
+            //                     $(ev.target).siblings('.datepicker-icon').hide();
+            //                 } else {
+            //                     $(ev.target).siblings('.datepicker-clear').hide();
+            //                     $(ev.target).siblings('.datepicker-icon').show();
+            //                 }
+            //             }
+            //             _this.selectedOfferID = null;
+            //             _this.firstCancel = true;
+            //         });
+            //
+            //         _this.firstCancel = true;
+            //         $(item).off('cancel.daterangepicker').on('cancel.daterangepicker', function (ev, picker) {
+            //             _this.firstCancel ? $('[data-type="daterange"]').each((ind, it) => {
+            //                 _this.dpquery = '&pm-dr=';
+            //                 $('[data-type="daterange"]').val('');
+            //                 $('[data-type="daterange"]').attr('data-value', '');
+            //                 $('[data-type="daterange"]').trigger('change');
+            //                 picker.leftCalendar.month = dayjs($(ev.target).data('mindate'), 'DD.MM.YYYY');
+            //                 picker.rightCalendar.month = dayjs($(ev.target).data('maxdate'), 'DD.MM.YYYY');
+            //                 if(_this.firstCancel == false) { return false; }
+            //                 _this.firstCancel = false;
+            //             }) : '';
+            //         });
+            //     });
+            //
+            //     // -- show/hide clear button in datepicker
+            //     $('[data-type="daterange"]').on('change', function (e) {
+            //         if ($(this).val() != '') {
+            //             $(e.target).siblings('.datepicker-clear').show();
+            //             $(e.target).siblings('.datepicker-icon').hide();
+            //         } else {
+            //             $(e.target).siblings('.datepicker-clear').hide();
+            //             $(e.target).siblings('.datepicker-icon').show();
+            //         }
+            //     });
+            //
+            //     document.addEventListener("DOMContentLoaded", function (event) {
+            //         $('.travelshop-datepicker-input').one('click', function () {
+            //             $('.daterangepicker select').prettyDropdown({
+            //                 height: 30
+            //             });
+            //         });
+            //         $('.monthselect').one('change', function () {
+            //             $('.daterangepicker select').prettyDropdown({
+            //                 height: 30
+            //             });
+            //         });
+            //     });
+            //
+            // }
         }
 
         /**
