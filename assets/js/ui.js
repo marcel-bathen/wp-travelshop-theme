@@ -563,6 +563,12 @@ jQuery(function ($) {
                     getCheckbox.trigger('click');
                 }
 
+                if ( thisType === 'daterange' ) {
+                    var getDateRangeInputClear = $('body').find(listFilterBlock + ' .datepicker-clear');
+
+                    getDateRangeInputClear.trigger('click');
+                }
+
                 // submit for safety reasons
                 getFilter.trigger('submit');
 
