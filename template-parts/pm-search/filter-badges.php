@@ -1,5 +1,4 @@
 <?php
-echo "hi";
 
 $activeFilters = [];
 
@@ -39,6 +38,16 @@ if (!empty($args['board_types'])) {
     }
 }
 
+// Daterange
+if (empty($_GET['pm-dr']) === false) {
+    $dr = BuildSearch::extractDaterange($_GET['pm-dr']);
+    $human_readable_str = $dr[0]->format('d.m.') . ' - ' . $dr[1]->format('d.m.y');
+
+    $activeFilters[] = [
+        'id' => 'pm-dr',
+        'name' => $human_readable_str
+    ];
+}
 
 // categories
 foreach (TS_FILTERS as $filter) {
