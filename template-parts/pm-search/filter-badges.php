@@ -13,6 +13,7 @@ if (!empty($args['transport_types']) && count($args['transport_types']) > 1) {
         if (in_array($item->name, $selected)) {
             $activeFilters[] = [
                 'id' => $item->name,
+                'type' => 'select',
                 'name' => $item->name
             ];
         }
@@ -32,6 +33,7 @@ if (!empty($args['board_types'])) {
         if (in_array($item->name, $selected)) {
             $activeFilters[] = [
                 'id' => $item->name,
+                'type' => 'select',
                 'name' => $item->name
             ];
         }
@@ -45,7 +47,20 @@ if (empty($_GET['pm-dr']) === false) {
 
     $activeFilters[] = [
         'id' => 'pm-dr',
+        'type' => 'daterange',
         'name' => $human_readable_str
+    ];
+}
+
+// price
+if (isset($_GET['pm-pr']) === true && preg_match('/^([0-9]+)\-([0-9]+)$/', $_GET['pm-pr'], $m) > 0) {
+    $from = $m[1];
+    $to = $m[2];
+
+    $activeFilters[] = [
+            'id' => 'pm-pr',
+        'type' => 'pricerange',
+        'name' => $from . ' - ' . $to . ' €'
     ];
 }
 
@@ -81,6 +96,7 @@ foreach (TS_FILTERS as $filter) {
             if (in_array($item->id_item, $selected)) {
                 $activeFilters[] = [
                     'id' => $item->id_item,
+                    'type' => 'category',
                     'name' => $item->name
                 ];
             }
@@ -90,6 +106,7 @@ foreach (TS_FILTERS as $filter) {
                     if (in_array($child_item->id_item, $selected)) {
                         $activeFilters[] = [
                             'id' => $child_item->id_item,
+                            'type' => 'category',
                             'name' => $child_item->name
                         ];
 
