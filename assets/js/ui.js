@@ -544,14 +544,27 @@ jQuery(function ($) {
                 var thisType = $(this).data('type');
                 var getFilter = $('body').find(listFilterBlock);
 
+                /**
+                 *  Category
+                 */
                 if ( thisType === 'category' ) {
-                    
                     // get checkbox by ID
                     var getCheckbox = $('body').find(listFilterBlock + ' input[data-id="'+thisId+'"]');
 
                     getCheckbox.trigger('click');
-                    getFilter.trigger('submit');
                 }
+                /**
+                 * Checkbox
+                 */
+                if ( thisType === 'checkbox' ) {
+                    // get checkbox by ID
+                    var getCheckbox = $('body').find(listFilterBlock + ' input[data-id="'+thisId+'"]');
+
+                    getCheckbox.trigger('click');
+                }
+
+                // submit for safety reasons
+                getFilter.trigger('submit');
 
             });
 
