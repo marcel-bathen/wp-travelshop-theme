@@ -528,7 +528,43 @@ jQuery(function ($) {
     
     // ------------------------------------------------
     // -- Active filters
-    // -----
+    // ------------------------------------------------
+    let activeFilterWrapper = '.content-block-list-active-filters';
+    let activeFilterRemove = 'button.active-filter-remove';
+    let listFilterWrapper = '.list-filter';
+    
+    function activeFilters() {
+        if ( $('body').find(activeFilterWrapper) ) {
+
+            var getFilterBadges = $('body').find(activeFilterRemove);
+
+            getFilterBadges.on('click touch', function(e) {
+
+                var thisId = $(this).data('target');
+                var thisType = $(this).data('type');
+                var getFilter = $('body').find(listFilterWrapper);
+
+                if ( thisType === 'category' ) {
+                    
+                    // get checkbox by ID
+                    var getCheckbox = $('body').find(listFilterWrapper + ' input[data-id="'+thisId+'"]');
+
+                    getCheckbox.trigger('click');
+                    getFilter.trigger('submit');
+                }
+
+            });
+
+        }
+    }
+
+    activeFilters();
+
+    $( document ).ajaxComplete(function( event, xhr, settings ) {
+        activeFilters();
+    });
+
+
 
     // ------------------------------------------------
     // -- mobile bar show/hide
